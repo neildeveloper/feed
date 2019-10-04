@@ -1,10 +1,11 @@
 var requestURL = "https://cors-anywhere.herokuapp.com/https://mutemute.com/mutenews/ajax/app-news.php";
+var HSIrequestURL = "https://cors-anywhere.herokuapp.com/http://www.aastocks.com/tc/Ajax/AjaxData.ashx?type=index&symbol=HSI";
 
 $(function() {
     initHandlebar();
 
     var _success = function(result){
-        var source   = document.getElementById("template").innerHTML;
+        var source  = document.getElementById("template").innerHTML;
         var data = {};
 
         var result = result.filter(function(item, index, array){
@@ -20,24 +21,36 @@ $(function() {
         $('#content').html(html);
     };
     HttpGet(requestURL, _success);
+    
+    var _hsi_success = function(result){
+        var source  = document.getElementById("index_template").innerHTML;
+        var html = handlebar(source, result);
+        $('#index').html(html);
+    };
+    HttpGet(HSIrequestURL, _hsi_success, false);
 
     setInterval(function(){
         HttpGet(requestURL, _success);
     }, 60000);   
 
+
+    setInterval(function(){
+        HttpGet(HSIrequestURL, _hsi_success, false);
+    }, 5000);   
+
 });
 
-function HttpGet(_url, _success){
+function HttpGet(_url, _success, loading=true){
     $.ajax({
         url: _url,
         contentType: 'application/json',
         dataType: 'json',
         method: 'GET',
         beforeSend: function(){
-            showLoading();
+            if(loading) showLoading();
         },
         complete: function(){
-            hideLoading();
+            if(loading) hideLoading();
         },
         error: function(xhr, ajaxOptions, thrownError){
             console.log(xhr.status);

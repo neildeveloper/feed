@@ -20,7 +20,7 @@
             position: fixed;
             z-index: 999;
             /* height: 50px; */
-            width: 500px;
+            width: 200px;
             overflow: show;
             margin: auto;
             top: 0;
@@ -43,9 +43,14 @@
             vertical-align: top;
         }
 
-        .important-news{
+        .i2{
             font-weight: bold;
             color: red;
+        }
+
+        .i3{
+            font-weight: bold;
+            color: blueviolet;
         }
 
     </style>
@@ -55,15 +60,42 @@
             <img class="loading-image" src="loading.gif" />
         </div>
 
+
+        <div id="index" style="text-align: right;"></div>
         <div id="content"></div>
 
 
+        <div id="index_template" style="display:none;">
+            {{#Data}}
+            <div id="hsi-index">
+                <div style="padding:10px; display: inline-block;">{{Last}}</div>
+                {{#if_eq Sign '-'}}
+                <div style="padding:10px; display: inline-block; color: red;">{{Sign}}{{Change}}({{PctChange}})</div>
+                {{else}}
+                <div style="padding:10px; display: inline-block;">{{Sign}}{{Change}}({{PctChange}})</div>
+                {{/if_eq}}
+            </div>
+            {{/Data}}
+        </div>
+
         <div id="template" style="display: none;">
             {{#d}}
-                <div class="{{#if_eq importance '2'}}important-news{{/if_eq}}">
+                {{#if_eq importance '2'}}
+                <div class="i2">
                     <div class="left-col">{{createdAt}}</div>
                     <div class="right-col">{{content}}</div>
                 </div>
+                {{else if_eq importance '3'}}
+                <div class="i3">
+                    <div class="left-col">{{createdAt}}</div>
+                    <div class="right-col">{{content}}</div>
+                </div>
+                {{else}}
+                <div>
+                    <div class="left-col">{{createdAt}}</div>
+                    <div class="right-col">{{content}}</div>
+                </div>
+                {{/if_eq}}
             {{/d}}
         </div>
 
