@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.0/handlebars.min.js"></script>
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+
+    <style>
+
+        body{font-family: sans-serif; font-size: 13px;}
+
+        #loading{
+            height: 100%;
+            background: grey;
+        }
+
+        .loading-image {
+            position: fixed;
+            z-index: 999;
+            /* height: 50px; */
+            width: 500px;
+            overflow: show;
+            margin: auto;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .left-col{
+            display: inline-block;
+            width: 10%;
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .right-col{
+            display: inline-block;
+            width: 80%;
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .important-news{
+            font-weight: bold;
+            color: red;
+        }
+
+    </style>
+
+    <body>
+        <div id="loading" style="display: none" >
+            <img class="loading-image" src="loading.gif" />
+        </div>
+
+        <div id="content"></div>
+
+
+        <div id="template" style="display: none;">
+            {{#d}}
+                <div class="{{#if_eq importance '2'}}important-news{{/if_eq}}">
+                    <div class="left-col">{{createdAt}}</div>
+                    <div class="right-col">{{content}}</div>
+                </div>
+            {{/d}}
+        </div>
+
+    </body>
+</html>
