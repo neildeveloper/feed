@@ -1,4 +1,4 @@
-var corsURL = "https://cors-anywhere.herokuapp.com/";
+var corsURL = "https://api.allorigins.win/get?url=";
 
 function handlebar(template, data){
     var template = Handlebars.compile(template);
@@ -101,7 +101,7 @@ function PushMessage(msg) {
 
 function HttpGet(_url, _success, loading=true, dataType='json'){
     $.ajax({
-        url: corsURL + _url,
+        url: corsURL + encodeURIComponent(_url),
         dataType: dataType,
         method: 'GET',
         beforeSend: function(){

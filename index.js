@@ -129,6 +129,7 @@ $(function() {
 
 function GenIndexFigure(Interval = 5000){
     var _success = function(result){
+        result = JSON.parse(result.contents);
         var source  = document.getElementById("index_template").innerHTML;
         var html = handlebar(source, result);
         $('#index-content').html(html);
@@ -146,7 +147,8 @@ function GenNews(Interval = 60000){
         var source  = document.getElementById("news_template").innerHTML;
         var data = {};
 
-        var result = result.filter(function(item, index, array){
+        result = JSON.parse(result.contents);
+        result = result.filter(function(item, index, array){
             return item.id != "promo";
         });
         
@@ -178,7 +180,10 @@ function GenStockFigure(Interval = 5000){
 
     var _success = function(result){
         var source  = document.getElementById("stock_template").innerHTML;
-        var data = xmlToJson(result);
+
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(result.contents, "text/xml");
+        var data = xmlToJson(xmlDoc);
         $.each(data.quote.stock, function(index, value){
             if(this.change.text < 0)
                 this.Sign = "-";
@@ -189,8 +194,13 @@ function GenStockFigure(Interval = 5000){
         $('#stock-content').html(html);
     };
 
-    HttpGet(requestURL, _success, loading = false, dataType = "xml");
+    HttpGet(requestURL, _success);
     setInterval(function(){
-        HttpGet(requestURL, _success, loading = false, dataType = "xml");
+        HttpGet(requestURL, _success);
     }, Interval);   
+
+    // HttpGet(requestURL, _success, loading = false, dataType = "xml");
+    // setInterval(function(){
+    //     HttpGet(requestURL, _success, loading = false, dataType = "xml");
+    // }, Interval);   
 }
