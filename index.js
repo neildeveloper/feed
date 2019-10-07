@@ -173,6 +173,7 @@ function GenNews(Interval = 60000){
 
 function GenStockFigure(Interval = 5000){
     var code = GetQueryString("code");
+    if (code == null) return;
     var requestURL = "http://money18.on.cc/securityQuote/genStockXMLHKWithDelay.php?stockcode=" + code;
 
     var _success = function(result){
