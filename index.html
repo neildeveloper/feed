@@ -1,20 +1,30 @@
-
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Feed</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+        <link rel="shortcut icon" href="favicon.ico" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <link rel="stylesheet" href="sidebar.css">
+
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.0/handlebars.min.js"></script>
-        <script type="text/javascript" src="app.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.0/handlebars.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    
+        <script src="basic.js"></script>
+        <script src="index.js"></script>
     </head>
 
     <style>
 
         body{font-family: sans-serif; font-size: 13px;}
-
-        #loading{
-            height: 100%;
-            background: grey;
-        }
 
         .loading-image {
             position: fixed;
@@ -32,14 +42,14 @@
         .left-col{
             display: inline-block;
             width: 10%;
-            padding: 5px;
+            margin: 5px;
             vertical-align: top;
         }
 
         .right-col{
             display: inline-block;
-            width: 80%;
-            padding: 5px;
+            width: 85%;
+            margin: 5px;
             vertical-align: top;
         }
 
@@ -53,32 +63,92 @@
             color: blueviolet;
         }
 
+        .stock-fg{
+            padding: 5px 20px; 
+            display: inline-block;
+            width: 100px;
+        }
+
+        #index-content, #stock-content{
+            text-align: left;
+            font: 12px;
+        }
+
     </style>
 
     <body>
+
+        <div class="wrapper">
+
+            <nav id="sidebar" style="padding-top:30px">
+                <div id="index-content"></div>
+                <div id="stock-content"></div>
+            </nav>
+        
+            <div id="content">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+    
+                        <button type="button" id="sidebarCollapse" class="navbar-btn">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                
+                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fas fa-align-justify"></i>
+                        </button>
+
+                    </div>
+                </nav>
+
+                <div id="news-content"></div>
+            </div>
+        </div>
+        
+        <!-- 
+        <div id="index-content" style="text-align: right;"></div>
+        <div id="stock-content" style="text-align: right;"></div>
+        <div id="content"></div> 
+        -->
+
+
         <div id="loading" style="display: none" >
             <img class="loading-image" src="loading.gif" />
         </div>
 
+        <div id="stock_template" style="display:none;">
+            {{#quote.stock}}
+            <div>
+                <div class="stock-fg">{{symbol.text}}</div>
+                <div class="stock-fg">{{price.text}}</div>
+                {{#if_eq Sign '-'}}
+                <div class="stock-fg" style="color: red;">{{pct_change.cdata-section}}{{change.text}}({{pctchange.cdatasection}})</div>
+                {{else if_eq Sign '+'}}
+                <div class="stock-fg" style="color: green;">{{pct_change.cdata-section}}{{change.text}}({{pctchange.cdatasection}})</div>
+                {{else}}
+                <div class="stock-fg">{{pct_change.cdata-section}}{{change.text}}({{pctchange.cdatasection}})</div>
+                {{/if_eq}}
 
-        <div id="index" style="text-align: right;"></div>
-        <div id="content"></div>
-
+            </div>
+            {{/quote.stock}}
+        </div>
 
         <div id="index_template" style="display:none;">
             {{#Data}}
             <div id="hsi-index">
-                <div style="padding:10px; display: inline-block;">{{Last}}</div>
+                <div class="stock-fg">HSI</div>
+                <div class="stock-fg">{{Last}}</div>
                 {{#if_eq Sign '-'}}
-                <div style="padding:10px; display: inline-block; color: red;">{{Sign}}{{Change}}({{PctChange}})</div>
+                <div class="stock-fg" style="color: red;">{{Sign}}{{Change}}({{PctChange}})</div>
                 {{else}}
-                <div style="padding:10px; display: inline-block;">{{Sign}}{{Change}}({{PctChange}})</div>
+                <div class="stock-fg">{{Sign}}{{Change}}({{PctChange}})</div>
                 {{/if_eq}}
             </div>
             {{/Data}}
         </div>
 
-        <div id="template" style="display: none;">
+        <div id="news_template" style="display: none;">
             {{#d}}
                 {{#if_eq importance '2'}}
                 <div class="i2">
