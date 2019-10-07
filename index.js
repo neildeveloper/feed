@@ -127,7 +127,7 @@ $(function() {
 // }
 
 
-function GenIndexFigure(Interval = 5000){
+function GenIndexFigure(Interval = 10000){
     var _success = function(result){
         result = JSON.parse(result.contents);
         var source  = document.getElementById("index_template").innerHTML;
@@ -173,7 +173,7 @@ function GenNews(Interval = 60000){
 }
 
 
-function GenStockFigure(Interval = 5000){
+function GenStockFigure(Interval = 10000){
     var code = GetQueryString("code");
     if (code == null) return;
     var requestURL = "http://money18.on.cc/securityQuote/genStockXMLHKWithDelay.php?stockcode=" + code;
@@ -194,9 +194,9 @@ function GenStockFigure(Interval = 5000){
         $('#stock-content').html(html);
     };
 
-    HttpGet(requestURL, _success);
+    HttpGet(requestURL, _success, loading = false);
     setInterval(function(){
-        HttpGet(requestURL, _success);
+        HttpGet(requestURL, _success, loading = false);
     }, Interval);   
 
     // HttpGet(requestURL, _success, loading = false, dataType = "xml");
