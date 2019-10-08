@@ -134,7 +134,7 @@
             {{/quote.stock}}
         </div>
 
-        <div id="index_template" style="display:none;">
+        <!-- <div id="index_template" style="display:none;">
             {{#Data}}
             <div id="hsi-index">
                 <div class="stock-fg">HSI</div>
@@ -146,6 +146,31 @@
                 {{/if_eq}}
             </div>
             {{/Data}}
+        </div> -->
+
+        <div id="index_template" style="display:none;">
+            {{#r_HSI}}
+            <div id="hsi-index">
+                <div class="stock-fg">HSI</div>
+                <div class="stock-fg">{{value}}</div>
+                {{#if_eq Sign '-'}}
+                <div class="stock-fg" style="color: red;">{{Sign}}{{difference}}({{change}})</div>
+                {{else}}
+                <div class="stock-fg" style="color: green;">{{Sign}}{{difference}}({{change}})</div>
+                {{/if_eq}}
+            </div>
+            {{/r_HSI}}
+            {{#r_SSECI}}
+            <div id="hsi-index">
+                <div class="stock-fg">SSE</div>
+                <div class="stock-fg">{{value}}</div>
+                {{#if_eq Sign '-'}}
+                <div class="stock-fg" style="color: red;">{{Sign}}{{difference}}({{change}})</div>
+                {{else}}
+                <div class="stock-fg" style="color: green;">{{Sign}}{{difference}}({{change}})</div>
+                {{/if_eq}}
+            </div>
+            {{/r_SSECI}}
         </div>
 
         <div id="news_template" style="display: none;">

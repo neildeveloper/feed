@@ -1,10 +1,5 @@
-
-var requestURL = "https://mutemute.com/mutenews/ajax/app-news.php";
-var HSIrequestURL = "http://www.aastocks.com/tc/Ajax/AjaxData.ashx?type=index&symbol=HSI";
-var stockrequestRUL = "http://money18.on.cc/js/real/hk/quote/01299_r.js";
-
-var last_uid = "";
-var notification = true;
+// mutemute
+// https://mutemute.com/mutenews/ajax/app-news.php
 
 // Money18
 // index
@@ -13,7 +8,13 @@ var notification = true;
 // http://money18.on.cc/securityQuote/genStockXMLHKWithDelay.php?stockcode=00700,01299,00175
 // http://money18.on.cc/js/real/hk/quote/01521_r.js
 
+// AAStock
+// index
+// http://www.aastocks.com/tc/Ajax/AjaxData.ashx?type=index&symbol=HSI
 
+
+var last_uid = "";
+var notification = true;
 
 $(function() {
 
@@ -26,10 +27,8 @@ $(function() {
     initHandlebar();
 
     GenNews();
-    GenIndexFigure();
-    GenStockFigure();
-
-    // GetStock();
+    GenIndex();
+    GenStock();
 
     // var call1 = function fn1(){
     //     var deferred = $.Deferred();
@@ -126,23 +125,34 @@ $(function() {
 
 // }
 
-
-function GenIndexFigure(Interval = 10000){
+function GenIndex(Interval = 10000){
+    var M18 = {};
+    var _url = "http://realtime-money18-cdn.on.cc/js/real/index/index_all_r.js";
     var _success = function(result){
-        result = JSON.parse(result.contents);
+        eval(result.contents);
+        $.each(M18, function(index, value){
+            if(index == "r_HSI" || index == "r_SSECI"){
+                if(value.difference >= 0) value.Sign = "+";
+                else value.sign = "-";
+
+                value.change = (Math.round(value.difference / value.pc * 10000) / 100) + "%" ;
+            }
+        });
+        
         var source  = document.getElementById("index_template").innerHTML;
-        var html = handlebar(source, result);
+        var html = handlebar(source, M18);
         $('#index-content').html(html);
     };
 
-    HttpGet(HSIrequestURL, _success, loading = false);
+    HttpGet(_url, _success, loading = false);
     setInterval(function(){
-        HttpGet(HSIrequestURL, _success, loading = false);
-    }, Interval);   
+        HttpGet(_url, _success, loading = false);
+    }, Interval); 
 }
 
 
 function GenNews(Interval = 60000){
+    var _url = "https://mutemute.com/mutenews/ajax/app-news.php";
     var _success = function(result){
         var source  = document.getElementById("news_template").innerHTML;
         var data = {};
@@ -166,17 +176,17 @@ function GenNews(Interval = 60000){
         $('#news-content').html(html);
     };
 
-    HttpGet(requestURL, _success);
+    HttpGet(_url, _success);
     setInterval(function(){
-        HttpGet(requestURL, _success);
+        HttpGet(_url, _success);
     }, Interval);   
 }
 
 
-function GenStockFigure(Interval = 10000){
+function GenStock(Interval = 10000){
     var code = GetQueryString("code");
     if (code == null) return;
-    var requestURL = "http://money18.on.cc/securityQuote/genStockXMLHKWithDelay.php?stockcode=" + code;
+    var _url = "http://money18.on.cc/securityQuote/genStockXMLHKWithDelay.php?stockcode=" + code;
 
     var _success = function(result){
         var source  = document.getElementById("stock_template").innerHTML;
@@ -194,13 +204,8 @@ function GenStockFigure(Interval = 10000){
         $('#stock-content').html(html);
     };
 
-    HttpGet(requestURL, _success, loading = false);
+    HttpGet(_url, _success, loading = false);
     setInterval(function(){
-        HttpGet(requestURL, _success, loading = false);
+        HttpGet(_url, _success, loading = false);
     }, Interval);   
-
-    // HttpGet(requestURL, _success, loading = false, dataType = "xml");
-    // setInterval(function(){
-    //     HttpGet(requestURL, _success, loading = false, dataType = "xml");
-    // }, Interval);   
 }
