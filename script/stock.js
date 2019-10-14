@@ -34,7 +34,8 @@ $(function() {
     });
 
     initHandlebar();
-
+    
+    GenIndex();
     GetStock();
     setInterval(function(){
         GetStock();
@@ -125,4 +126,29 @@ function unit(value){
         value = Math.round(value / 1000 * 100) /100 + 'K';
     }
     return value;
+}
+
+function GenIndex(Interval = 10000){
+    var M18 = {};
+    var _url = "http://realtime-money18-cdn.on.cc/js/real/index/index_all_r.js";
+    var _success = function(result){
+        eval(result.contents);
+        $.each(M18, function(index, value){
+            if(index == "r_HSI" || index == "r_SSECI"){
+                if(value.difference >= 0) value.Sign = "+";
+                else value.sign = "-";
+
+                value.change = (Math.round(value.difference / value.pc * 10000) / 100) + "%" ;
+            }
+        });
+        
+        var source  = document.getElementById("index_template").innerHTML;
+        var html = handlebar(source, M18);
+        $('#index-content').html(html);
+    };
+
+    HttpGet(_url, _success, loading = false);
+    setInterval(function(){
+        HttpGet(_url, _success, loading = false);
+    }, Interval); 
 }
