@@ -26,7 +26,7 @@
 
         <style>
             
-            body{font-family: sans-serif; font-size: 18px;}
+            body{font-family: sans-serif; font-size: 13px;}
 
             /* tr:hover {background-color: #f5f5f5;} */
 
@@ -41,10 +41,10 @@
             }
 
             .red-pulse{
-                animation: pulse 0.5s infinite;  /* IE 10+, Fx 29+ */
+                animation: redpulse 0.5s;  /* IE 10+, Fx 29+ */
             }
 
-            @keyframes pulse {
+            @keyframes redpulse {
                 0% {
                     background-color: red;
                 }
@@ -54,10 +54,10 @@
             }
 
             .green-pulse{
-                animation: pulse 0.5s infinite;  /* IE 10+, Fx 29+ */
+                animation: greenpulse 0.5s;  /* IE 10+, Fx 29+ */
             }
 
-            @keyframes pulse {
+            @keyframes greenpulse {
                 0% {
                     background-color: green;
                 }
@@ -95,7 +95,7 @@
                 </nav>
 
                 <div style="margin: 20px">
-                    <select id="tag" multiple="multiple" style="width: 50%;"></select>
+                    <select id="tag" multiple="multiple" style="width: 100%;"></select>
                 </div>
                 <div id="stock-content"></div>
             </div>
