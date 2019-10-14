@@ -39,7 +39,7 @@ $(function() {
     GetStock();
     setInterval(function(){
         GetStock();
-    }, 10000); 
+    }, 5000); 
 
 })
 
@@ -128,7 +128,7 @@ function unit(value){
     return value;
 }
 
-function GenIndex(Interval = 10000){
+function GenIndex(Interval = 5000){
     var M18 = {};
     var _url = "http://realtime-money18-cdn.on.cc/js/real/index/index_all_r.js";
     var _success = function(result){
