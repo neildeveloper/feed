@@ -24,7 +24,7 @@
 
     <style>
 
-        body{font-family: sans-serif; font-size: 13px;}
+        body{font-family: sans-serif; font-size: 15px;}
 
         .loading-image {
             position: fixed;
@@ -105,13 +105,6 @@
                 <div id="news-content"></div>
             </div>
         </div>
-        
-        <!-- 
-        <div id="index-content" style="text-align: right;"></div>
-        <div id="stock-content" style="text-align: right;"></div>
-        <div id="content"></div> 
-        -->
-
 
         <div id="loading" style="display: none" >
             <img class="loading-image" src="loading.gif" />
@@ -133,20 +126,6 @@
             </div>
             {{/quote.stock}}
         </div>
-
-        <!-- <div id="index_template" style="display:none;">
-            {{#Data}}
-            <div id="hsi-index">
-                <div class="stock-fg">HSI</div>
-                <div class="stock-fg">{{Last}}</div>
-                {{#if_eq Sign '-'}}
-                <div class="stock-fg" style="color: red;">{{Sign}}{{Change}}({{PctChange}})</div>
-                {{else}}
-                <div class="stock-fg">{{Sign}}{{Change}}({{PctChange}})</div>
-                {{/if_eq}}
-            </div>
-            {{/Data}}
-        </div> -->
 
         <div id="index_template" style="display:none;">
             {{#r_HSI}}
