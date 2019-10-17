@@ -26,10 +26,18 @@ $(function() {
               text: pad(term, 5),
               newTag: true
             }
-          }
+        }
+    });
+
+    var local = localStorage["tag"].split(',');
+
+    $.each(local, function(index, value){
+        var newOption = new Option(value, value, false, true);
+        $('#tag').append(newOption).trigger('change');
     });
 
     $('#tag').on('select2:select', function (e) { 
+        localStorage["tag"] = $('#tag').val();
         GetStock();
     });
 
@@ -39,7 +47,7 @@ $(function() {
     GetStock();
     setInterval(function(){
         GetStock();
-    }, 5000); 
+    }, 10000); 
 
 })
 
@@ -128,7 +136,7 @@ function unit(value){
     return value;
 }
 
-function GenIndex(Interval = 5000){
+function GenIndex(Interval = 10000){
     var M18 = {};
     var _url = "http://realtime-money18-cdn.on.cc/js/real/index/index_all_r.js";
     var _success = function(result){
