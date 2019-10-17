@@ -31,6 +31,7 @@ $(function() {
 
     var local = localStorage["tag"].split(',');
 
+    console.log(local);
     $.each(local, function(index, value){
         var newOption = new Option(value, value, false, true);
         $('#tag').append(newOption).trigger('change');
