@@ -210,3 +210,4 @@ function GenStock(Interval = 10000){
         HttpGet(_url, _success, loading = false);
     }, Interval);   
 }
+

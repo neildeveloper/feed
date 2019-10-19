@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Feed</title>
+        <meta charset="utf-8">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+        <link rel="shortcut icon" href="favicon.ico" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
+        <link rel="stylesheet" href="style/sidebar.css">
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.0/handlebars.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.full.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>     
+
+        <script src="script/basic.js"></script>
+        <script src="script/fund.js"></script>
+
+        <style>
+
+            body{font-family: sans-serif; font-size: 13px;}
+
+            .loading-image {
+            position: fixed;
+            z-index: 999;
+            /* height: 50px; */
+            width: 200px;
+            overflow: show;
+            margin: auto;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="wrapper">
+
+            <nav id="sidebar" style="padding-top:30px">
+                <div id="index-content"></div>
+            </nav>
+        
+            <div id="content">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+    
+                        <button type="button" id="sidebarCollapse" class="navbar-btn">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                
+                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fas fa-align-justify"></i>
+                        </button>
+
+                    </div>
+                </nav>
+
+                <div id="mpf-content">
+                    <div style="padding:0px 20px;">
+                        <select id="ddlfund" style="width: 100%;" multiple="multiple">
+                            <option value="APF">65歲後基金</option>
+                            <option value="ANEF">亞太股票基金</option>
+                            <option value="BLF">均衡基金</option>
+                            <option value="CNEF">中國股票基金</option>
+                            <option value="CAF">核心累積基金</option>
+                            <option value="EUEF">歐洲股票基金</option>
+                            <option value="GBA">環球債券基金</option>
+                            <option value="GEFP">環球股票基金</option>
+                            <option value="GRF">增長基金</option>
+                            <option value="GTF">保證基金</option>
+                            <option value="HSHFP">恒生中國企業指數基金</option>
+                            <option value="HSIF">恆指基金</option>
+                            <option value="HKEF">中港股票基金</option>
+                            <option value="CPF">強積金保守基金</option>
+                            <option value="NAEF">北美股票基金</option>
+                            <option value="SBF">平穩基金</option>
+                            <option value="VAEFP">自選亞太股票基金</option>
+                            <option value="VBLFP">自選均衡基金</option>
+                            <option value="VEEFP">自選歐洲股票基金</option>
+                            <option value="VUEFP">自選美國股票基金</option>
+                        </select>
+                    </div>
+
+                    <canvas id="myChart" width="100%"></canvas>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div id="loading" style="display: none" >
+            <img class="loading-image" src="loading.gif" />
+        </div>
+        
+    </body>
+
+</html>

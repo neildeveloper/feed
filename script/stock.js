@@ -1,3 +1,5 @@
+'use strict';
+
 $(function() {
 
     $('#sidebarCollapse').on('click', function () {
@@ -32,9 +34,13 @@ $(function() {
     var local = localStorage["tag"].split(',');
 
     $.each(local, function(index, value){
+
         var newOption = new Option(value, value, false, true);
         $('#tag').append(newOption).trigger('change');
     });
+
+    // $('#tag').val(localStorage["tag"]);
+    // $('#tag').trigger('change');
 
     $('#tag').on('select2:select', function (e) { 
         localStorage["tag"] = $('#tag').val();
@@ -57,8 +63,6 @@ function GetStock(){
     var M18 = {};
     var calls = [];
     var tags = $('#tag').val();
-    // var value = "00700";
-    // tags = ["00700","01299"];
     $.each(tags, function(index, value){
         var d_url = "http://money18.on.cc/js/daily/hk/quote/" + value + "_d.js";
         var r_url = "http://money18.on.cc/js/real/hk/quote/" + value + "_r.js";
@@ -79,12 +83,13 @@ function GetStock(){
 
     $.when.apply($, calls)
     .done(function(){
-        
         var result = {};
         $.each(tags, function(index, value){
             var sign, direction = "unchange";
-            if(M18["r_" + value].ltp > M18["d_" + value].preCPrice) sign = "+";
-            else if(M18["r_" + value].ltp < M18["d_" + value].preCPrice) sign = "-";
+            var before = parseFloat(M18["r_" + value].ltp);
+            var after = parseFloat(M18["d_" + value].preCPrice);
+            if(before > after) sign = "+";
+            else if(before < after) sign = "-";
 
             if (typeof _M18["r_" + value] !== "undefined"){
                 if(M18["r_" + value].ltp > _M18["r_" + value].ltp) direction = "up";
@@ -143,7 +148,7 @@ function GenIndex(Interval = 10000){
         eval(result.contents);
         $.each(M18, function(index, value){
             if(index == "r_HSI" || index == "r_SSECI"){
-                if(value.difference >= 0) value.Sign = "+";
+                if(value.difference >= 0) value.sign = "+";
                 else value.sign = "-";
 
                 value.change = (Math.round(value.difference / value.pc * 10000) / 100) + "%" ;
@@ -155,8 +160,8 @@ function GenIndex(Interval = 10000){
         $('#index-content').html(html);
     };
 
-    HttpGet(_url, _success, loading = false);
+    HttpGet(_url, _success, false);
     setInterval(function(){
-        HttpGet(_url, _success, loading = false);
+        HttpGet(_url, _success, false);
     }, Interval); 
 }
