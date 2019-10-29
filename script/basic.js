@@ -1,4 +1,4 @@
-var corsURL = "https://api.allorigins.win/get?url=";
+var corsURL = "https://crossorigin.me/";
 
 function handlebar(template, data){
     var template = Handlebars.compile(template);
