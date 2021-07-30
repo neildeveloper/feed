@@ -1,177 +1,80 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Feed</title>
-        <meta charset="utf-8">
-        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+<html lang="en">
 
-        <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-        <link rel="shortcut icon" href="favicon.ico" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-        <link rel="stylesheet" href="style/sidebar.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
 
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.0/handlebars.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>     
+<body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script> -->
+    <script src="/__/firebase/8.8.1/firebase-app.js"></script>
 
-        <script src="script/basic.js"></script>
-        <script src="script/index.js"></script>
-    </head>
 
-    <style>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script> -->
 
-        body{font-family: sans-serif; font-size: 15px;}
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-analytics.js"></script>
 
-        .loading-image {
-            position: fixed;
-            z-index: 999;
-            /* height: 50px; */
-            width: 200px;
-            overflow: show;
-            margin: auto;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-        }
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyCUsabIyRTDBo48PWWViubu6UBmPX-LV7E",
+            authDomain: "fir-lab-6fd44.firebaseapp.com",
+            databaseURL: "https://fir-lab-6fd44.firebaseio.com",
+            projectId: "fir-lab-6fd44",
+            storageBucket: "fir-lab-6fd44.appspot.com",
+            messagingSenderId: "317033725295",
+            appId: "1:317033725295:web:e13c7388676323a408bc9a"
+        };
+        // Initialize Firebase 
+        firebase.initializeApp(firebaseConfig);
+        // firebase.analytics();
 
-        .left-col{
-            display: inline-block;
-            width: 10%;
-            margin: 5px;
-            vertical-align: top;
-        }
+        var email = 'lee90218@gmail.com';
+        var password = 'P@ssw0rd';
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() => {
+                var user = firebase.auth().currentUser;
+                console.log(user);
+                if (user) {
+                    // User is signed in.
+                } else {
+                    // No user is signed in.
+                }
 
-        .right-col{
-            display: inline-block;
-            width: 85%;
-            margin: 5px;
-            vertical-align: top;
-        }
 
-        .i2{
-            font-weight: bold;
-            color: red;
-        }
+                // var db = firebase.firestore();
 
-        .i3{
-            font-weight: bold;
-            color: blueviolet;
-        }
+                var db = firebase.database();
+                db.ref("/chinese/Mary").set({
+                    grade: 100
+                })
+                    .then(function () {
+                        alert("建立成功");
+                    }).catch(function () {
+                        alert("伺服器發生錯誤，請稍後再試");
+                    });
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
 
-        .stock-fg{
-            padding: 3px 20px; 
-            display: inline-block;
-            width: 100px;
-        }
 
-        #index-content, #stock-content{
-            text-align: left;
-            font: 12px;
-        }
 
-    </style>
 
-    <body>
 
-        <div class="wrapper">
 
-            <nav id="sidebar" style="padding-top:30px">
-                <div id="index-content"></div>
-                <div id="stock-content"></div>
-            </nav>
-        
-            <div id="content">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-    
-                        <button type="button" id="sidebarCollapse" class="navbar-btn">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                
-                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fas fa-align-justify"></i>
-                        </button>
+    </script>
 
-                    </div>
-                </nav>
 
-                <div id="news-content"></div>
-            </div>
-        </div>
 
-        <div id="loading" style="display: none" >
-            <img class="loading-image" src="loading.gif" />
-        </div>
 
-        <div id="stock_template" style="display:none;">
-            {{#quote.stock}}
-            <div>
-                <div class="stock-fg">{{symbol.text}}</div>
-                <div class="stock-fg">{{price.text}}</div>
-                {{#if_eq Sign '-'}}
-                <div class="stock-fg" style="color: red;">{{pct_change.cdata-section}}{{change.text}}({{pctchange.cdatasection}})</div>
-                {{else if_eq Sign '+'}}
-                <div class="stock-fg" style="color: green;">{{pct_change.cdata-section}}{{change.text}}({{pctchange.cdatasection}})</div>
-                {{else}}
-                <div class="stock-fg">{{pct_change.cdata-section}}{{change.text}}({{pctchange.cdatasection}})</div>
-                {{/if_eq}}
 
-            </div>
-            {{/quote.stock}}
-        </div>
 
-        <div id="index_template" style="display:none;">
-            {{#r_HSI}}
-            <div id="hsi-index">
-                <div class="stock-fg">HSI</div>
-                <div class="stock-fg">{{value}}</div>
-                {{#if_eq sign '-'}}
-                <div class="stock-fg" style="color: red;">{{difference}}({{change}})</div>
-                {{else}}
-                <div class="stock-fg" style="color: green;">{{difference}}({{change}})</div>
-                {{/if_eq}}
-            </div>
-            {{/r_HSI}}
-            {{#r_SSECI}}
-            <div id="hsi-index">
-                <div class="stock-fg">SSE</div>
-                <div class="stock-fg">{{value}}</div>
-                {{#if_eq sign '-'}}
-                <div class="stock-fg" style="color: red;">{{difference}}({{change}})</div>
-                {{else}}
-                <div class="stock-fg" style="color: green;">{{difference}}({{change}})</div>
-                {{/if_eq}}
-            </div>
-            {{/r_SSECI}}
-        </div>
-
-        <div id="news_template" style="display: none;">
-            {{#d}}
-                {{#if_eq importance '2'}}
-                <div class="i2">
-                    <div class="left-col">{{createdAt}}</div>
-                    <div class="right-col">{{content}}</div>
-                </div>
-                {{else if_eq importance '3'}}
-                <div class="i3">
-                    <div class="left-col">{{createdAt}}</div>
-                    <div class="right-col">{{content}}</div>
-                </div>
-                {{else}}
-                <div>
-                    <div class="left-col">{{createdAt}}</div>
-                    <div class="right-col">{{content}}</div>
-                </div>
-                {{/if_eq}}
-            {{/d}}
-        </div>
-
-    </body>
-</html>
+</body>
